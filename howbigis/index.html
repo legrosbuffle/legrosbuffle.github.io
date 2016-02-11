@@ -21,7 +21,9 @@
     <div class="jumbotron">
       <div class="container">
         <h1>How big is...</h1>
-        <p>This was inspired by "How big is Africa"</p>
+        <p>This was inspired by Kai Krause's great post <a href="http://kai.sub.blue/en/africa.html">How big is Africa"</a>,
+        where he shows how you can fit several countries in africa. This is essentially two overlapping globes that you can
+        interactively rotate to compare two arbitrary regions of the world.</p>
         <p><a class="btn btn-primary btn-lg" href="#play" role="button">Play with it &raquo;</a></p>
       </div>
     </div>
@@ -32,13 +34,21 @@
         <div class="col-md-8">
           <canvas id="earth-canvas"></canvas>
         </div>
-        <div class="col-md-2">
-          <p>
-            <button id="layer1" type="button" class="btn btn-danger">Move red layer</button>
-          </p>
-          <p>
-            <button id="layer2" type="button" class="btn btn-primary">Move blue layer</button>
-          </p>
+        <div class="col-md-3">
+          <p>Move:</p>
+          <div class="btn-group" role="group" aria-label="...">
+            <button id="layer1" type="button" class="btn btn-danger">red layer</button>
+            <button id="layer2" type="button" class="btn btn-primary">blue layer</button>
+          </div>
+          <p>Borders:</p>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-danger active">
+              <input id="borders1" type="checkbox" autocomplete="off" checked>red borders
+            </label>
+            <label class="btn btn-primary">
+              <input id="borders2" type="checkbox" autocomplete="off">blue borders
+            </label>
+          </div>
         </div>
       </div>
 
