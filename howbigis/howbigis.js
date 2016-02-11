@@ -15,31 +15,36 @@ howbigis.cross = function(a, b) {
   ];
 }
 
-howbigis.HowBigIs = function(width, height) {
+howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
   // Data
   this.land_ = null;
   this.borgders_ = null;
   d3.json("world-110m.json", this.onLoad_.bind(this));
 
   // UI
-  this.width_ = width;
-  this.height_ = height;
+  this.canvas_ = d3.select("#" + canvasId);
+  this.layer1Btn_ = d3.select("#" + layer1BtnId).node();
+  this.layer2Btn_ = d3.select("#" + layer2BtnId).node();
+  // Make the canvas fill the width and then make it square.
+  this.canvas_.node().style.width='100%';
+  this.canvas_.node().style.height='100%';
+  this.canvas_.node().width  = this.canvas_.node().offsetWidth;
+  this.canvas_.node().height = this.canvas_.node().width;
+
+  this.width_ = this.canvas_.node().getBoundingClientRect().width;
+  this.height_ = this.canvas_.node().getBoundingClientRect().height;
   this.radius_ = this.height_ / 2 - 5;
   this.scale_ = this.radius_;
 
   this.projection1_ = d3.geo.orthographic()
-    .translate([width / 2, height / 2])
+    .translate([this.width_ / 2, this.height_ / 2])
     .scale(this.scale_)
     .clipAngle(90);
 
   this.projection2_ = d3.geo.orthographic()
-    .translate([width / 2, height / 2])
+    .translate([this.width_ / 2, this.height_ / 2])
     .scale(this.scale_)
     .clipAngle(90);
-
-  this.canvas_ = d3.select("body").append("canvas")
-    .attr("width", this.width_)
-    .attr("height", this.height_);
 
   this.context_ = this.canvas_.node().getContext("2d");
 
@@ -51,12 +56,22 @@ howbigis.HowBigIs = function(width, height) {
     .projection(this.projection2_)
     .context(this.context_);
 
-  this.eyeTheta_ = 0.0;
-  this.eyePhi_ = 0.0;
+  this.eyeTheta1_ = 0.0;
+  this.eyePhi1_ = 0.0;
+  this.eyeTheta2_ = 0.0;
+  this.eyePhi2_ = 0.0;
 
   this.lastX_ = -1;
   this.lastY_ = -1;
-  
+
+  this.movingLayer1_ = true;
+  this.layer1Btn_.addEventListener("click", function(event) {
+    this.movingLayer1_ = true;
+  }.bind(this), false);
+  this.layer2Btn_.addEventListener("click", function(event) {
+    this.movingLayer1_ = false;
+  }.bind(this), false);
+
   this.canvas_.node().addEventListener("mousedown", function(event) {
     this.lastX_ = event.x - this.canvas_.node().offsetLeft;
     this.lastY_ = event.y - this.canvas_.node().offsetTop;
@@ -70,13 +85,24 @@ howbigis.HowBigIs = function(width, height) {
     }
     var x = event.x - this.canvas_.node().offsetLeft;
     var y = event.y - this.canvas_.node().offsetTop;
-    this.eyePhi_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
-    this.eyeTheta_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
-    if (this.eyePhi_ < -Math.PI) {
-      this.eyePhi_ += 2 * Math.PI;
-    }
-    if (this.eyePhi_ > Math.PI) {
-      this.eyePhi_ -= 2 * Math.PI;
+    if (this.movingLayer1_) {
+      this.eyePhi1_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
+      this.eyeTheta1_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
+      if (this.eyePhi1_ < -Math.PI) {
+        this.eyePhi1_ += 2 * Math.PI;
+      }
+      if (this.eyePhi1_ > Math.PI) {
+        this.eyePhi1_ -= 2 * Math.PI;
+      }
+    } else {
+      this.eyePhi2_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
+      this.eyeTheta2_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
+      if (this.eyePhi2_ < -Math.PI) {
+        this.eyePhi2_ += 2 * Math.PI;
+      }
+      if (this.eyePhi2_ > Math.PI) {
+        this.eyePhi2_ -= 2 * Math.PI;
+      }
     }
 
     this.lastX_ = x;
@@ -93,7 +119,7 @@ howbigis.HowBigIs.prototype.drawPath_ = function(path, fill, stroke) {
   if (stroke) {
     this.context_.beginPath();
     this.context_.lineWidth = 1.0;
-    this.context_.strokeStyle=stroke;
+    this.context_.strokeStyle = stroke;
     path(this.borders_);
     this.context_.stroke();
   }
@@ -140,18 +166,23 @@ howbigis.HowBigIs.prototype.draw_ = function() {
   console.debug(pitch);
   console.debug(roll);
   */
-  var yaw = 180.0 / Math.PI * this.eyePhi_;
-  var pitch = - 180.0 / Math.PI * this.eyeTheta_;
-  var roll = 0.0;
+  var yaw1 = 180.0 / Math.PI * this.eyePhi1_;
+  var pitch1 = - 180.0 / Math.PI * this.eyeTheta1_;
+  var roll1 = 0.0;
+  var yaw2 = 180.0 / Math.PI * this.eyePhi2_;
+  var pitch2 = - 180.0 / Math.PI * this.eyeTheta2_;
+  var roll2 = 0.0;
   
   //land
-  this.projection1_.rotate([yaw, pitch, roll]);
+  this.projection1_.rotate([yaw1, pitch1, roll1]);
+  this.projection2_.rotate([yaw2, pitch2, roll2]);
   //projection2.rotate([0, 0]);
   this.drawPath_(this.path1_, "rgba(200,50,50,0.5)", "rgba(70,0,0,0.5)");
   this.drawPath_(this.path2_, "rgba(50,50,200,0.5)", null);
 
   // sphere contours
   this.context_.beginPath();
+  this.context_.strokeStyle = "rgba(0,0,0,1.0)";
   this.context_.arc(this.width_ / 2, this.height_ / 2, this.radius_, 0, 2 * Math.PI, true);
   this.context_.lineWidth = 2.5;
   this.context_.stroke();

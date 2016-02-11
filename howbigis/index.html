@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>How Big Is ...</title>
+    <title>How big is ...</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -18,9 +18,41 @@
     <script src="howbigis.js"></script>
   </head>
   <body>
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>How big is...</h1>
+        <p>This was inspired by "How big is Africa"</p>
+        <p><a class="btn btn-primary btn-lg" href="#play" role="button">Play with it &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row" id="play">
+        <div class="col-md-8">
+          <canvas id="earth-canvas"></canvas>
+        </div>
+        <div class="col-md-2">
+          <p>
+            <button id="layer1" type="button" class="btn btn-danger">Move red layer</button>
+          </p>
+          <p>
+            <button id="layer2" type="button" class="btn btn-primary">Move blue layer</button>
+          </p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 Clément Courbet.</p>
+      </footer>
+    </div> <!-- /container -->
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-      var page = new howbigis.HowBigIs(960, 600);
+      var page = new howbigis.HowBigIs("earth-canvas", "layer1", "layer2");
     </script>
   </body>
 </html>
