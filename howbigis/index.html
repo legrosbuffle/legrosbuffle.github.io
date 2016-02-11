@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="d3.v3.min.js"></script>
+<script src="topojson.min.js"></script>
+<script>
+
+var width = 960,
+    height = 600;
+
+var radius = height / 2 - 5,
+    scale = radius,
+    velocity = .02;
+
+var projection1 = d3.geo.orthographic()
+    .translate([width / 2, height / 2])
+    .scale(scale)
+    .clipAngle(90);
+
+var projection2 = d3.geo.orthographic()
+    .translate([width / 2, height / 2])
+    .scale(scale)
+    .clipAngle(90);
+
+var canvas = d3.select("body").append("canvas")
+    .attr("width", width)
+    .attr("height", height);
+
+var context = canvas.node().getContext("2d");
+
+var path1 = d3.geo.path()
+    .projection(projection1)
+    .context(context);
+
+var path2 = d3.geo.path()
+    .projection(projection2)
+    .context(context);
+
+function dot(a, b) {
+  return a[0] * b[0] + a[1] + b[1] + a[2] + b[2];
+}
+function cross(a, b) {
+  return [
+      a[1] * b[2] - a[2] * b[1],
+    - a[0] * b[2] + a[2] * b[0],
+      a[0] * b[1] - a[1] * b[0]
+  ];
+}
+
+d3.json("world-110m.json", function(error, world) {
+  if (error) throw error;
+  var land = topojson.feature(world, world.objects.land);
+  var borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+  var yaw = 0.0;
+  var pitch = 0.0;
+  var roll = 0.0;
+  var eyeTheta = 0.0;
+  var eyePhi = 0.0;
+
+  function drawPath(path, fill, stroke) {
+    context.beginPath();
+    context.fillStyle=fill;
+    path(land);
+    context.fill();
+    if (stroke) {
+      context.beginPath();
+      context.lineWidth = 1.0;
+      context.strokeStyle=stroke;
+      path(borders);
+      context.stroke();
+    }
+  }
+
+  function draw() {
+    context.clearRect(0, 0, width, height);
+    projection1.rotate([yaw, pitch, roll]);
+    //projection2.rotate([0, 0]);
+    drawPath(path1, "rgba(200,50,50,0.5)", "rgba(70,0,0,0.5)");
+    drawPath(path2, "rgba(50,50,200,0.5)", null);
+
+    context.beginPath();
+    context.arc(width / 2, height / 2, radius, 0, 2 * Math.PI, true);
+    context.lineWidth = 2.5;
+    context.stroke();
+  }
+  var lastX = -1;
+  var lastY = -1;
+  canvas.node().addEventListener("mousedown", function(event) {
+    lastX = event.x - canvas.node().offsetLeft;
+    lastY = event.y - canvas.node().offsetTop;
+  }, false);
+  canvas.node().addEventListener("mouseup", function(event) {
+    lastX = -1;
+  }, false);
+  canvas.node().addEventListener("mousemove", function(event) {
+    if (lastX == -1) {
+      return;
+    }
+    var x = event.x - canvas.node().offsetLeft;
+    var y = event.y - canvas.node().offsetTop;
+    eyePhi += 0.1 * Math.PI * (x - lastX) / 180.0;
+    eyeTheta += 0.1 * Math.PI * (y - lastY) / 180.0;
+    if (eyePhi < -Math.PI) {
+      eyePhi += 2 * Math.PI;
+    }
+    if (eyePhi > Math.PI) {
+      eyePhi -= 2 * Math.PI;
+    }
+
+    /*
+    var start = [
+      Math.cos(eyePhi) * Math.cos(eyeTheta),
+      Math.sin(eyePhi) * Math.cos(eyeTheta),
+      Math.sin(eyeTheta)
+    ];
+    var dest = [1, 0, 0];
+
+    var cosT = dot(start, dest);
+    console.debug('cosT');
+    console.debug(cosT);
+    if (cosT < -0.999) {
+    }
+    // TODO: small cosT:
+    var s = Math.sqrt(2*(1+cosT));
+    var rot = cross(start, dest);
+    var q0 = 2 * s;
+    var q1 = rot[0] / s;
+    var q2 = rot[1] / s;
+    var q3 = rot[2] / s;
+    console.debug('quat:');
+    console.debug(q0);
+    console.debug(q1);
+    console.debug(q2);
+    console.debug(q3);
+
+    roll = 180.0 / Math.PI * Math.atan2(2*(q0*q1 + q2*q3), 1 - 2 * (q1*q1+q2*q2));
+    pitch = - 180.0 / Math.PI * Math.asin(2*(q0*q2-q3*q1));
+    yaw = - 180.0 / Math.PI * Math.atan2(2*(q0*q3+q1*q2),1-2*(q2*q2+q3*q3));
+    console.debug('ypr:');
+    console.debug(yaw);
+    console.debug(pitch);
+    console.debug(roll);
+    */
+    yaw = 180.0 / Math.PI * eyePhi;
+    pitch = - 180.0 / Math.PI * eyeTheta;
+
+    lastX = x;
+    lastY = y;
+    draw();
+  }, false);
+
+  draw(0, 0);
+});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+</script>
