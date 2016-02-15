@@ -87,10 +87,10 @@ howbigis.HowBigIs = function(canvasId,
   }.bind(this), false);
 
   this.usesTouch_ = "ontouchstart" in window;
-  this.canvas_.node().addEventListener(this.usesTouch_ ? "touchmove" : "mousemove", this.handleMove_.bind(this), false);
+  this.canvas_.node().addEventListener(this.usesTouch_ ? "touchmove" : "mousemove", this.handleMove_.bind(this), true);
   this.canvas_.node().addEventListener(this.usesTouch_ ? "touchstart" : "mousedown", function(event) {
-    this.lastX_ = event.x - this.canvas_.node().offsetLeft;
-    this.lastY_ = event.y - this.canvas_.node().offsetTop;
+    this.lastX_ = (this.usesTouch_ ? event.touches[0].pageX : event.x) - this.canvas_.node().offsetLeft;
+    this.lastY_ = (this.usesTouch_ ? event.touches[0].pageY : event.y) - this.canvas_.node().offsetTop;
   }.bind(this), false);
   this.canvas_.node().addEventListener(this.usesTouch_ ? "touchend" : "mouseup", function(event) {
     this.lastX_ = -1;
@@ -102,8 +102,12 @@ howbigis.HowBigIs.prototype.handleMove_ = function(event) {
   if (this.lastX_ < 0) {
     return;
   }
-  var x = event.x - this.canvas_.node().offsetLeft;
-  var y = event.y - this.canvas_.node().offsetTop;
+  if (this.usesTouch_ && event.touches.length != 1) {
+    return;
+  }
+  var x = (this.usesTouch_ ? event.touches[0].pageX : event.x) - this.canvas_.node().offsetLeft;
+  var y = (this.usesTouch_ ? event.touches[0].pageY : event.y) - this.canvas_.node().offsetTop;
+  event.preventDefault();
   if (this.movingLayer1_) {
     this.eyePhi1_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
     this.eyeTheta1_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
