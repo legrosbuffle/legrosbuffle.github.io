@@ -15,7 +15,9 @@ howbigis.cross = function(a, b) {
   ];
 }
 
-howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
+howbigis.HowBigIs = function(canvasId,
+                             layer1BtnId, layer2BtnId,
+                             borders1BtnId, borders2BtnId) {
   // Data
   this.land_ = null;
   this.borgders_ = null;
@@ -25,6 +27,8 @@ howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
   this.canvas_ = d3.select("#" + canvasId);
   this.layer1Btn_ = d3.select("#" + layer1BtnId).node();
   this.layer2Btn_ = d3.select("#" + layer2BtnId).node();
+  this.borders1Btn_ = d3.select("#" + borders1BtnId).node();
+  this.borders2Btn_ = d3.select("#" + borders2BtnId).node();
   // Make the canvas fill the width and then make it square.
   this.canvas_.node().style.width='100%';
   this.canvas_.node().style.height='100%';
@@ -56,6 +60,9 @@ howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
     .projection(this.projection2_)
     .context(this.context_);
 
+  this.showBorders1_ = true;
+  this.showBorders2_ = false;
+
   this.eyeTheta1_ = 0.0;
   this.eyePhi1_ = 0.0;
   this.eyeTheta2_ = 0.0;
@@ -71,6 +78,14 @@ howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
   this.layer2Btn_.addEventListener("click", function(event) {
     this.movingLayer1_ = false;
   }.bind(this), false);
+  this.borders1Btn_.addEventListener("change", function(event) {
+    this.showBorders1_ = this.borders1Btn_.checked;
+    this.draw_();
+  }.bind(this), false);
+  this.borders2Btn_.addEventListener("change", function(event) {
+    this.showBorders2_ = this.borders2Btn_.checked;
+    this.draw_();
+  }.bind(this), false);
 
   this.canvas_.node().addEventListener("mousedown", function(event) {
     this.lastX_ = event.x - this.canvas_.node().offsetLeft;
@@ -78,6 +93,7 @@ howbigis.HowBigIs = function(canvasId, layer1BtnId, layer2BtnId) {
   }.bind(this), false);
   this.canvas_.node().addEventListener("mouseup", function(event) {
     this.lastX_ = -1;
+    this.draw_();
   }.bind(this), false);
   this.canvas_.node().addEventListener("mousemove", function(event) {
     if (this.lastX_ == -1) {
@@ -177,8 +193,8 @@ howbigis.HowBigIs.prototype.draw_ = function() {
   this.projection1_.rotate([yaw1, pitch1, roll1]);
   this.projection2_.rotate([yaw2, pitch2, roll2]);
   //projection2.rotate([0, 0]);
-  this.drawPath_(this.path1_, "rgba(200,50,50,0.5)", "rgba(70,0,0,0.5)");
-  this.drawPath_(this.path2_, "rgba(50,50,200,0.5)", null);
+  this.drawPath_(this.path1_, "rgba(255,50,50,0.5)", this.showBorders1_ ? "rgba(255,255,255,1.0)" : null);
+  this.drawPath_(this.path2_, "rgba(50,50,200,0.5)", this.showBorders2_ ? "rgba(0,0,0,0.5)" : null);
 
   // sphere contours
   this.context_.beginPath();

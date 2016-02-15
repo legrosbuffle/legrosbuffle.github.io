@@ -21,7 +21,7 @@
     <div class="jumbotron">
       <div class="container">
         <h1>How big is...</h1>
-        <p>This was inspired by Kai Krause's great post <a href="http://kai.sub.blue/en/africa.html">How big is Africa"</a>,
+        <p>This was inspired by Kai Krause's great post <a href="http://kai.sub.blue/en/africa.html">"How big is Africa"</a>,
         where he shows how you can fit several countries in africa. This is essentially two overlapping globes that you can
         interactively rotate to compare two arbitrary regions of the world.</p>
         <p><a class="btn btn-primary btn-lg" href="#play" role="button">Play with it &raquo;</a></p>
@@ -40,14 +40,19 @@
             <button id="layer1" type="button" class="btn btn-danger">red layer</button>
             <button id="layer2" type="button" class="btn btn-primary">blue layer</button>
           </div>
-          <p>Borders:</p>
           <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-danger active">
+            <!--<label class="btn btn-danger active">
               <input id="borders1" type="checkbox" autocomplete="off" checked>red borders
             </label>
             <label class="btn btn-primary">
               <input id="borders2" type="checkbox" autocomplete="off">blue borders
-            </label>
+            </label>-->
+            <div class="checkbox">
+              <label><input id="borders1" type="checkbox" checked />red borders</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="borders2" type="checkbox" />blue borders</label>
+            </div>
           </div>
         </div>
       </div>
@@ -62,7 +67,7 @@
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
-      var page = new howbigis.HowBigIs("earth-canvas", "layer1", "layer2");
+      var page = new howbigis.HowBigIs("earth-canvas", "layer1", "layer2", "borders1", "borders2");
     </script>
   </body>
 </html>
