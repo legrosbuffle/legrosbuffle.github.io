@@ -67,7 +67,6 @@ howbigis.HowBigIs = function(canvasId,
   this.eyePhi1_ = 0.0;
   this.eyeTheta2_ = 0.0;
   this.eyePhi2_ = 0.0;
-
   this.lastX_ = -1;
   this.lastY_ = -1;
 
@@ -87,45 +86,47 @@ howbigis.HowBigIs = function(canvasId,
     this.draw_();
   }.bind(this), false);
 
-  this.canvas_.node().addEventListener("mousedown", function(event) {
+  this.usesTouch_ = "ontouchstart" in window;
+  this.canvas_.node().addEventListener(this.usesTouch_ ? "touchmove" : "mousemove", this.handleMove_.bind(this), false);
+  this.canvas_.node().addEventListener(this.usesTouch_ ? "touchstart" : "mousedown", function(event) {
     this.lastX_ = event.x - this.canvas_.node().offsetLeft;
     this.lastY_ = event.y - this.canvas_.node().offsetTop;
   }.bind(this), false);
-  this.canvas_.node().addEventListener("mouseup", function(event) {
+  this.canvas_.node().addEventListener(this.usesTouch_ ? "touchend" : "mouseup", function(event) {
     this.lastX_ = -1;
     this.draw_();
   }.bind(this), false);
-  var hasTouch = "ontouchstart" in window;
-  this.canvas_.node().addEventListener(hasTouch ? "touchmove" : "mousemove", function(event) {
-    if (this.lastX_ == -1) {
-      return;
-    }
-    var x = event.x - this.canvas_.node().offsetLeft;
-    var y = event.y - this.canvas_.node().offsetTop;
-    if (this.movingLayer1_) {
-      this.eyePhi1_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
-      this.eyeTheta1_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
-      if (this.eyePhi1_ < -Math.PI) {
-        this.eyePhi1_ += 2 * Math.PI;
-      }
-      if (this.eyePhi1_ > Math.PI) {
-        this.eyePhi1_ -= 2 * Math.PI;
-      }
-    } else {
-      this.eyePhi2_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
-      this.eyeTheta2_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
-      if (this.eyePhi2_ < -Math.PI) {
-        this.eyePhi2_ += 2 * Math.PI;
-      }
-      if (this.eyePhi2_ > Math.PI) {
-        this.eyePhi2_ -= 2 * Math.PI;
-      }
-    }
+}
 
-    this.lastX_ = x;
-    this.lastY_ = y;
-    this.draw_();
-  }.bind(this), false);
+howbigis.HowBigIs.prototype.handleMove_ = function(event) {
+  if (this.lastX_ < 0) {
+    return;
+  }
+  var x = event.x - this.canvas_.node().offsetLeft;
+  var y = event.y - this.canvas_.node().offsetTop;
+  if (this.movingLayer1_) {
+    this.eyePhi1_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
+    this.eyeTheta1_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
+    if (this.eyePhi1_ < -Math.PI) {
+      this.eyePhi1_ += 2 * Math.PI;
+    }
+    if (this.eyePhi1_ > Math.PI) {
+      this.eyePhi1_ -= 2 * Math.PI;
+    }
+  } else {
+    this.eyePhi2_ += 0.1 * Math.PI * (x - this.lastX_) / 180.0;
+    this.eyeTheta2_ += 0.1 * Math.PI * (y - this.lastY_) / 180.0;
+    if (this.eyePhi2_ < -Math.PI) {
+      this.eyePhi2_ += 2 * Math.PI;
+    }
+    if (this.eyePhi2_ > Math.PI) {
+      this.eyePhi2_ -= 2 * Math.PI;
+    }
+  }
+
+  this.lastX_ = x;
+  this.lastY_ = y;
+  this.draw_();
 }
 
 howbigis.HowBigIs.prototype.drawPath_ = function(path, fill, stroke) {
