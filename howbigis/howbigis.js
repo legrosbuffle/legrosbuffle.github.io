@@ -95,7 +95,8 @@ howbigis.HowBigIs = function(canvasId,
     this.lastX_ = -1;
     this.draw_();
   }.bind(this), false);
-  this.canvas_.node().addEventListener("mousemove", function(event) {
+  var hasTouch = "ontouchstart" in window;
+  this.canvas_.node().addEventListener(hasTouch ? "touchmove" : "mousemove", function(event) {
     if (this.lastX_ == -1) {
       return;
     }
