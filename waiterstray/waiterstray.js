@@ -21,6 +21,8 @@ wt.Page = function(solution) {
       }
     });
   
+  document.addEventListener('click', event => { this.next_(); });
+  
   var lastTouchStartX = 0.0;
   document.addEventListener("touchstart", event => {
     evt.preventDefault();
