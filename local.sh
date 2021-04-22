@@ -1,1 +1,1 @@
-python -m SimpleHTTPServer 12345
+python3 -m http.server 12345

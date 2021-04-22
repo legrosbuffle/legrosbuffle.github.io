@@ -1,0 +1,105 @@
+
+#instructions {
+    width: 704px;
+    margin: auto;
+}
+
+#puzzle {
+    width: 704px;
+    margin: auto;
+    margin-top: 200px;
+    height: 368px;
+    background-image: url("holder.svg");
+    background-size: 100% 100%;
+    z-index: 0;
+}
+
+.bottles {
+    width: 576px;
+    height: 320px;
+    margin: auto;
+}
+
+.slot {
+    position:relative;
+    width: 96px;
+    height: 320px;
+    margin: 0px;
+    margin-top: -30px;
+    margin-right: 0px;
+    float: left;
+}
+
+.bottle {
+    position:absolute;
+    width: 99%;
+    height: 100%;
+    background-image: url("bottle.svg");
+    background-size: 100% 100%;
+    margin: auto;
+    z-index: 2;
+    transition: margin-top 0.15s;
+}
+
+.bottle.top {
+    margin-top: -128px;
+}
+
+.bottle.middle {
+    margin-top: -65px;
+}
+
+.bottle.bottom {
+    margin-top: 0px;
+}
+
+.marble {
+    position:absolute;
+    width: 28px;
+    height: 28px;
+    margin: 0px;
+    z-index: 1;
+    background-image: url("marble.svg");
+    background-size: 100% 100%;
+    transition: margin-top 0.15s;
+    transition: margin-left 0.15s;
+}
+
+
+.marble.topleft {
+    margin-top: 64px;
+    margin-left: 68px;
+}
+
+.marble.bottomleft {
+    margin-top: 128px;
+    margin-left: 68px;
+}
+
+.marble.bottomright {
+    margin-top: 128px;
+    margin-left: 96px;
+}
+
+.pin {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("pin.svg");
+    background-size: 100% 100%;
+    margin-left: 40px;
+    margin-top: 60px;
+    z-index: 3;
+}
+
+#tray {
+    position: absolute;
+    width: 856px;
+    height: 152px;
+    background-image: url("tray.svg");
+    background-size: 100% 100%;
+    margin-left: -72px;
+    margin-top: -156px;
+    z-index: 3;
+    transition: margin-left 0.15s;
+}
