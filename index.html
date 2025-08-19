@@ -1,52 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>legrosbuffle.github.io</title>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>legrosbuffle.github.io</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="jumbotron">
-      <div class="container">
-        <h1>legrosbuffle.github.io</h1>
-        <p>This just a page to showcase a few random projects. Make your selection below. You can also have a look at my github <a href="https://github.com/legrosbuffle">profile</a> or my old <a href="http://www.somebod.com">blog</a>.</p>
-      </div>
-    </div>
+</head>
 
+<body>
+  <div class="jumbotron">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h2>"The Waiter's Tray" puzzle</h2>
-          <p>An interactive visualization  (spoiler alert!) of the solution to the <a href="https://www.logicagiochi.com/fr/the-waiters-tray-le-vin-est-servi">Waiter's Tray</a> puzzle from <a href="http://www.constantin-jean-clau.de/">Jean Claude Constantin</a>. The solution was automatically generated using the solver <a href="https://github.com/legrosbuffle/waiterstray">here</a>.</p>
-          <p><a class="btn btn-primary btn-lg" href="waiterstray/waiterstray.html" role="button">Show me the solution &raquo;</a></p>          
-        </div>
+      <h1>legrosbuffle.github.io</h1>
+      <p>This just a page to showcase a few random projects. Make your selection below. You can also have a look at my
+        github <a href="https://github.com/legrosbuffle">profile</a> or my old <a
+          href="http://www.somebod.com">blog</a>.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>"The Waiter's Tray" puzzle</h2>
+        <p>An interactive visualization (spoiler alert!) of the solution to the <a
+            href="https://www.logicagiochi.com/fr/the-waiters-tray-le-vin-est-servi">Waiter's Tray</a> puzzle from <a
+            href="http://www.constantin-jean-clau.de/">Jean Claude Constantin</a>. The solution was automatically
+          generated using the solver <a href="https://github.com/legrosbuffle/waiterstray">here</a>.</p>
+        <p><a class="btn btn-primary btn-lg" href="waiterstray/waiterstray.html" role="button">Show me the solution
+            &raquo;</a></p>
       </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <h2>How big is...</h2>
-          <p>This was inspired by Kai Krause's great post <a href="http://kai.sub.blue/en/africa.html">"How big is Africa"</a>, where he shows how you can fit several countries in africa. This is essentially two overlapping globes that you can interactively rotate to compare two arbitrary regions of the world.</p>
-          <p><a class="btn btn-primary btn-lg" href="howbigis/index.html#play" role="button">Play with it &raquo;</a></p>          
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; 2021 Clément Courbet.</p>
-      </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  </body>
+    <div class="row">
+      <div class="col-md-4">
+        <h2>How big is...</h2>
+        <p>This was inspired by Kai Krause's great post <a href="http://kai.sub.blue/en/africa.html">"How big is
+            Africa"</a>, where he shows how you can fit several countries in africa. This is essentially two overlapping
+          globes that you can interactively rotate to compare two arbitrary regions of the world.</p>
+        <p><a class="btn btn-primary btn-lg" href="howbigis/index.html#play" role="button">Play with it &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Droplet coalescence</h2>
+        <p>A physics-inspired visualization of droplets coalescence, run in the browser. The model is that of water
+          vapor depositing on a horizontal planar surface. The rate of deposition is constant. Droplets move freely on
+          the surface (this can be seen as a perfectly hydrophobic surface); when two droplets merge, the resulting
+          droplet lies at the center of mass of the sources.</p>
+        <p>
+          Note that the dynamics of droplet coalescence are surprisingly complex: there are known analytical solutions
+          in the case of two droplets
+          <a href="https://pure.tue.nl/ws/portalfiles/portal/1523862/524223.pdf">"Plane Stokes flow with a free
+            boundary-driven solely by surface tension"</a>,
+          and the more general case is an active field of research (see e.g. <a
+            href="https://www.nature.com/articles/ncomms4182">"Coalescence of bubbles and drops in an
+            outer fluid"</a>). In my model, coalescence is instantaneous.
+        </p>
+        <p>The main challenge of the implementation is that a proper simulation requires a large number of samples (tens
+          of thousands), which can pretty quickly become prohibitively expensive if implemented the naive way (n^3).
+          This implementation uses a <a
+            href="https://github.com/timohausmann/quadtree-ts/blob/main/LICENSE.md">quadtree</a> for acceleration and is
+          in n*log(n).</p>
+        <p><a class="btn btn-primary btn-lg" href="droplet_coalescence/index.html" role="button">Visualize &raquo;</a>
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>&copy; 2021 Clément Courbet.</p>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
